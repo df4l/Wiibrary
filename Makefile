@@ -2,13 +2,7 @@
 # Clear the implicit built in rules
 #---------------------------------------------------------------------------------
 .SUFFIXES:
-.SECONDARY:
 #---------------------------------------------------------------------------------
-# prevent deletion of implicit targets
-#---------------------------------------------------------------------------------
-.SECONDARY:
-#---------------------------------------------------------------------------------
-
 ifeq ($(strip $(DEVKITPPC)),)
 $(error "Please set DEVKITPPC in your environment. export DEVKITPPC=<path to>devkitPPC")
 endif
@@ -24,15 +18,14 @@ include $(DEVKITPPC)/wii_rules
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	source
-DATA		:=
-TEXTURES	:=	textures
+DATA		:=	data  
 INCLUDES	:=
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS		=	-g -O2 -Wall $(MACHDEP) $(INCLUDE)
+CFLAGS	= -g -O2 -Wall $(MACHDEP) $(INCLUDE)
 CXXFLAGS	=	$(CFLAGS)
 
 LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
@@ -40,7 +33,7 @@ LDFLAGS	=	-g $(MACHDEP) -Wl,-Map,$(notdir $@).map
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:=	-lwiiuse -lbte -logc -lm
+LIBS	:=	 -lwiiuse -lbte -lfat -logc -lm
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
@@ -58,9 +51,7 @@ ifneq ($(BUILD),$(notdir $(CURDIR)))
 export OUTPUT	:=	$(CURDIR)/$(TARGET)
 
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
-					$(foreach dir,$(DATA),$(CURDIR)/$(dir)) \
-					$(foreach dir,$(TEXTURES),$(CURDIR)/$(dir))
-					
+					$(foreach dir,$(DATA),$(CURDIR)/$(dir))
 
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 
@@ -72,8 +63,6 @@ CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 sFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.S)))
 BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
-SCFFILES	:=	$(foreach dir,$(TEXTURES),$(notdir $(wildcard $(dir)/*.scf)))
-TPLFILES	:=	$(SCFFILES:.scf=.tpl)
 
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C
@@ -85,14 +74,13 @@ else
 endif
 
 export OFILES	:=	$(addsuffix .o,$(BINFILES)) \
-					$(addsuffix .o,$(TPLFILES)) \
 					$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) \
 					$(sFILES:.s=.o) $(SFILES:.S=.o)
 
 #---------------------------------------------------------------------------------
 # build a list of include paths
 #---------------------------------------------------------------------------------
-export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
+export INCLUDE	:=	$(foreach dir,$(INCLUDES), -iquote $(CURDIR)/$(dir)) \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 					-I$(CURDIR)/$(BUILD) \
 					-I$(LIBOGC_INC)
@@ -115,12 +103,18 @@ $(BUILD):
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).dol
+
 #---------------------------------------------------------------------------------
 run:
-	dolphin-emu-nogui $(OUTPUT).dol
+	dolphin-emu-nogui $(TARGET).dol
+
+run-h:
+	wiiload $(TARGET).dol
 
 #---------------------------------------------------------------------------------
 else
+
+DEPENDS	:=	$(OFILES:.o=.d)
 
 #---------------------------------------------------------------------------------
 # main targets
@@ -129,21 +123,14 @@ $(OUTPUT).dol: $(OUTPUT).elf
 $(OUTPUT).elf: $(OFILES)
 
 #---------------------------------------------------------------------------------
-# This rule links in binary data with the .bin extension
+# This rule links in binary data with the .jpg extension
 #---------------------------------------------------------------------------------
-%.bin.o	:	%.bin
+%.jpg.o	:	%.jpg
 #---------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	$(bin2o)
 
-#---------------------------------------------------------------------------------
-%.tpl.o	:	%.tpl
-#---------------------------------------------------------------------------------
-	@echo $(notdir $<)
-	@$(bin2o)
-
-
--include $(DEPSDIR)/*.d
+-include $(DEPENDS)
 
 #---------------------------------------------------------------------------------
 endif
