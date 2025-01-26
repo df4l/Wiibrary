@@ -109,6 +109,9 @@ clean:
 run:
 	wiiload $(TARGET).dol
 
+run-emu:
+	dolphin-emu-nogui $(TARGET).dol
+
 
 #---------------------------------------------------------------------------------
 else
