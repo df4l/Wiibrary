@@ -1,4 +1,4 @@
-const int adc1=0;
+    const int adc1=0;
     const int offset1=0;
     const int origin1=0;
     const int length1=1280;

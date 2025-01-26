@@ -9,6 +9,8 @@
 #include <wiiuse/wpad.h>
 #include <stdio.h>
 
+#include "epub.h"
+
 #include "background.h"
 
 int main() {
@@ -84,14 +86,15 @@ int main() {
             GX_Position3f32(-1.0f,-1.0f,1.0f);
             GX_Color1u32(col[2]);
 
+            //pages
             GX_Position3f32(1.0f,2.0f,1.0f);
-            GX_Color1u32(col[2]);
+            GX_Color1u32(col[0]);
             GX_Position3f32(1.0f,2.0f,0.8f);
             GX_Color1u32(col[2]);
             GX_Position3f32(1.0f,-1.0f,0.8f); 
-            GX_Color1u32(col[3]);
-            GX_Position3f32(1.0f,-1.0f,1.0f);
             GX_Color1u32(col[2]);
+            GX_Position3f32(1.0f,-1.0f,1.0f);
+            GX_Color1u32(col[0]);
         GX_End();
         a-=0.2f;   
 
