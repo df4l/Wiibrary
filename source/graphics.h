@@ -68,3 +68,65 @@
         siny3=old3+(adc3*pas3*0.25f);
         siny4=old4+(adc4*pas4*0.25f);
     }
+
+const u32 col[4] = {0xFFFFFFFF, 0xAAAAAAFF, 0x666666FF, 0xFF0000FF};
+
+void draw_book()
+{
+    GX_Begin(GX_QUADS, GX_VTXFMT0, 24);
+            GX_Position3f32(-1.0f,2.0f,0.8f);
+            GX_Color1u32(col[0]);
+            GX_Position3f32(-1.0f,-1.0f,0.8f);
+            GX_Color1u32(col[0]);
+            GX_Position3f32(1.0f,-1.0f,0.8f);
+            GX_Color1u32(col[0]);
+            GX_Position3f32(1.0f,2.0f,0.8f);
+            GX_Color1u32(col[0]);
+
+            GX_Position3f32(-1.0f,2.0f,1.0f);
+            GX_Color1u32(col[3]);
+            GX_Position3f32(-1.0f,-1.0f,1.0f);
+            GX_Color1u32(col[0]);
+            GX_Position3f32(1.0f,-1.0f,1.0f);
+            GX_Color1u32(col[0]);
+            GX_Position3f32(1.0f,2.0f,1.0f);
+            GX_Color1u32(col[3]);
+
+            GX_Position3f32(-1.0f,2.0f,1.0f);
+            GX_Color1u32(col[1]);
+            GX_Position3f32(1.0f,2.0f,1.0f);
+            GX_Color1u32(col[1]);
+            GX_Position3f32(1.0f,2.0f,0.8f);
+            GX_Color1u32(col[1]);
+            GX_Position3f32(-1.0f,2.0f,0.8f);
+            GX_Color1u32(col[1]);
+
+            GX_Position3f32(-1.0f,-1.0f,1.0f);
+            GX_Color1u32(col[1]);
+            GX_Position3f32(1.0f,-1.0f,1.0f);
+            GX_Color1u32(col[1]);
+            GX_Position3f32(1.0f,-1.0f,0.8f);
+            GX_Color1u32(col[1]);
+            GX_Position3f32(-1.0f,-1.0f,0.8f);
+            GX_Color1u32(col[1]);
+
+            GX_Position3f32(-1.0f,2.0f,1.0f);
+            GX_Color1u32(col[2]);
+            GX_Position3f32(-1.0f,2.0f,0.8f);
+            GX_Color1u32(col[2]);
+            GX_Position3f32(-1.0f,-1.0f,0.8f);
+            GX_Color1u32(col[2]);
+            GX_Position3f32(-1.0f,-1.0f,1.0f);
+            GX_Color1u32(col[2]);
+
+            //pages
+            GX_Position3f32(1.0f,2.0f,1.0f);
+            GX_Color1u32(col[0]);
+            GX_Position3f32(1.0f,2.0f,0.8f);
+            GX_Color1u32(col[2]);
+            GX_Position3f32(1.0f,-1.0f,0.8f); 
+            GX_Color1u32(col[2]);
+            GX_Position3f32(1.0f,-1.0f,1.0f);
+            GX_Color1u32(col[0]);
+        GX_End();
+}

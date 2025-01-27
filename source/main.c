@@ -11,7 +11,7 @@
 
 #include "epub.h"
 
-#include "background.h"
+#include "graphics.h"
 
 int main() {
     // Initialise the Graphics & Video subsystem
@@ -27,7 +27,6 @@ int main() {
     GRRLIB_Camera3dSettings(0.0f,0.0f,13.0f, 0,1,0, 0,0,0);
 
     float a = 0;
-    const u32 col[4] = {0xFFFFFFFF, 0xAAAAAAFF, 0x666666FF, 0xFF0000FF};
 
     while (1) {
         GRRLIB_2dMode();
@@ -40,62 +39,7 @@ int main() {
 
         GRRLIB_3dMode(0.1,1000,45,0,0);
         GRRLIB_ObjectView(0,0,0, 0,a*2,0,1,1,1);
-        GX_Begin(GX_QUADS, GX_VTXFMT0, 24);
-            GX_Position3f32(-1.0f,2.0f,0.8f);
-            GX_Color1u32(col[0]);
-            GX_Position3f32(-1.0f,-1.0f,0.8f);
-            GX_Color1u32(col[0]);
-            GX_Position3f32(1.0f,-1.0f,0.8f);
-            GX_Color1u32(col[0]);
-            GX_Position3f32(1.0f,2.0f,0.8f);
-            GX_Color1u32(col[0]);
-
-            GX_Position3f32(-1.0f,2.0f,1.0f);
-            GX_Color1u32(col[3]);
-            GX_Position3f32(-1.0f,-1.0f,1.0f);
-            GX_Color1u32(col[0]);
-            GX_Position3f32(1.0f,-1.0f,1.0f);
-            GX_Color1u32(col[0]);
-            GX_Position3f32(1.0f,2.0f,1.0f);
-            GX_Color1u32(col[3]);
-
-            GX_Position3f32(-1.0f,2.0f,1.0f);
-            GX_Color1u32(col[1]);
-            GX_Position3f32(1.0f,2.0f,1.0f);
-            GX_Color1u32(col[1]);
-            GX_Position3f32(1.0f,2.0f,0.8f);
-            GX_Color1u32(col[1]);
-            GX_Position3f32(-1.0f,2.0f,0.8f);
-            GX_Color1u32(col[1]);
-
-            GX_Position3f32(-1.0f,-1.0f,1.0f);
-            GX_Color1u32(col[1]);
-            GX_Position3f32(1.0f,-1.0f,1.0f);
-            GX_Color1u32(col[1]);
-            GX_Position3f32(1.0f,-1.0f,0.8f);
-            GX_Color1u32(col[1]);
-            GX_Position3f32(-1.0f,-1.0f,0.8f);
-            GX_Color1u32(col[1]);
-
-            GX_Position3f32(-1.0f,2.0f,1.0f);
-            GX_Color1u32(col[2]);
-            GX_Position3f32(-1.0f,2.0f,0.8f);
-            GX_Color1u32(col[2]);
-            GX_Position3f32(-1.0f,-1.0f,0.8f);
-            GX_Color1u32(col[2]);
-            GX_Position3f32(-1.0f,-1.0f,1.0f);
-            GX_Color1u32(col[2]);
-
-            //pages
-            GX_Position3f32(1.0f,2.0f,1.0f);
-            GX_Color1u32(col[0]);
-            GX_Position3f32(1.0f,2.0f,0.8f);
-            GX_Color1u32(col[2]);
-            GX_Position3f32(1.0f,-1.0f,0.8f); 
-            GX_Color1u32(col[2]);
-            GX_Position3f32(1.0f,-1.0f,1.0f);
-            GX_Color1u32(col[0]);
-        GX_End();
+        draw_book();
         a-=0.2f;   
 
         //Switch to 2D Mode to display text
