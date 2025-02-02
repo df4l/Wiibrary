@@ -71,7 +71,7 @@
 
 const u32 col[4] = {0xFFFFFFFF, 0xAAAAAAFF, 0x666666FF, 0xFF0000FF};
 
-void draw_book()
+void draw_selected_book()
 {
     GX_Begin(GX_QUADS, GX_VTXFMT0, 24);
             GX_Position3f32(-1.0f,2.0f,0.8f);
